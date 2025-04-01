@@ -1,5 +1,11 @@
 <?php
-	$msgErro = ["", "", "", ""];
+	$msgErro = [
+		"nome" => ["", "Nome"], 
+		"idade" => ["", "Idade"], 
+		"cor" => ["", "Cor"], 
+		"raca" => ["", "Raça"]
+	];
+
 	function mensagemErro($erro) {
 		if($erro != ""){
 			echo $erro;
@@ -19,19 +25,19 @@
 		<label for="nome">Nome</label>
 		<input type="text" name="nome" id="nome" placeholder="Nome do Animal" value="<?= $_GET["nome"] ?? '' ?>"></input> </br>
         <div class="erro"><?php
-			$msgErro[0] = mensagemErro($msgErro[0]);
+			mensagemErro($msgErro["nome"][0]);
 		?></div>
 
 		<label for="idade">Idade</label>
 		<input type="number" name="idade" id="idade" placeholder="Idade do Animal" value="<?= $_GET["idade"] ?? '' ?>"></input> </br>
 		<div class="erro"><?php
-			mensagemErro($msgErro[1]);
+			mensagemErro($msgErro["idade"][0]);
 		?></div>
 
 		<label for="cor">Cor</label>
 		<input type="text" name="cor" id="cor" placeholder="Cor do Animal"  value="<?= $_GET["cor"] ?? '' ?>"></input> </br>
 		<div class="erro"><?php
-			mensagemErro($msgErro[2]);
+			mensagemErro($msgErro["cor"][0]);
 		?></div>
 
 		<label for="raca">Raça</label>
@@ -52,7 +58,7 @@
 			<option value="Dalmata">Dalmata</option>
 		</select> </br>
 		<div class="erro"><?php
-			mensagemErro($msgErro[3]);
+			mensagemErro($msgErro["raca"][0]);
 		?></div>
 		
 		<button type="submit">Enviar</button>
@@ -62,15 +68,18 @@
 
 <?php
     require_once "../Models/pets.class.php";
+
     if($_GET){
-		if($_GET["nome"] == ""){
-			$msgErro[1] = ""
-		} else {
-			echo "<strong>Nome:</strong> " . $_GET["nome"] . "</br>";
+		function validacao($info){
+			if($_GET[$info] == ""){
+				$msgErro[$info][0] = $msgErro[$info][1] . "não foi fornecido";
+			} else {
+				echo "<strong>" . $info . "</strong> " . $_GET[$info] . "</br>";
+			}
 		}
-        
-        echo "<strong>Idade:</strong> " . $_GET["idade"] . "</br>";
-        echo "<strong>Cor:</strong> " . $_GET["cor"] . "</br>";
-        echo "<strong>Raça:</strong> " . $_GET["raca"] . "</br>";
+		validacao("nome");
+		validacao("idade");
+		validacao("cor");
+		validacao("raca");
     }
 ?>
